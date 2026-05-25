@@ -18,6 +18,8 @@
   --color-muted: var(--color-muted);
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);
+  --font-sans: var(--font-inter);
+  --font-montserrat: var(--font-montserrat);
 }
 
 body {
