@@ -73,6 +73,7 @@ export default function ImageUploader({ images, onChange }: Props) {
           type="file"
           accept="image/*"
           multiple
+          aria-label="Rasm fayllarini tanlang"
           className="hidden"
           onChange={(e) => handleFiles(e.target.files)}
         />
