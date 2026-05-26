@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { adminApi, type AdminOrder } from "@/lib/admin-api";
 import { formatPrice } from "@/lib/utils";
 
@@ -43,17 +44,15 @@ export default function AdminOrdersPage() {
   const totalPages = Math.ceil(total / pageSize);
 
   return (
-    <div className="flex flex-col gap-5">
-      <h1 className="font-montserrat font-bold text-xl text-[#2C2417]">Buyurtmalar</h1>
-
-      <div className="flex gap-2 flex-wrap">
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4">
         {STATUSES.map((s) => (
           <button
             key={s}
             type="button"
             onClick={() => { setStatus(s); setPage(1); }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-              status === s ? "bg-primary text-white" : "bg-white border border-gray-200 text-gray-600 hover:border-primary"
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-colors shrink-0 ${
+              status === s ? "bg-primary text-white" : "bg-white border border-gray-200 text-gray-600"
             }`}
           >
             {STATUS_LABELS[s]}
@@ -61,49 +60,49 @@ export default function AdminOrdersPage() {
         ))}
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="border-b border-gray-100 text-gray-400 text-xs">
-            <tr>
-              <th className="text-left px-4 py-3">ID</th>
-              <th className="text-left px-4 py-3">Mijoz</th>
-              <th className="text-left px-4 py-3">Yetkazish</th>
-              <th className="text-right px-4 py-3">Summa</th>
-              <th className="text-center px-4 py-3">Status</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-50">
-            {loading
-              ? Array.from({ length: 5 }).map((_, i) => (
-                  <tr key={i}><td colSpan={5} className="px-4 py-3"><div className="h-4 bg-gray-100 rounded animate-pulse" /></td></tr>
-                ))
-              : orders.map((o) => (
-                  <tr key={o.id} className="hover:bg-gray-50 transition-colors cursor-pointer">
-                    <td className="px-4 py-3">
-                      <Link href={`/admin/orders/${o.id}`} className="font-medium text-primary">#{o.id}</Link>
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-[#2C2417]">{o.contact_name}</p>
-                      <p className="text-xs text-gray-400">{o.contact_phone}</p>
-                    </td>
-                    <td className="px-4 py-3 text-gray-500 text-xs">{o.delivery_city}, {o.delivery_branch}</td>
-                    <td className="px-4 py-3 text-right font-semibold">{formatPrice(Number(o.total_price))}</td>
-                    <td className="px-4 py-3 text-center">
-                      <span className={`px-2 py-1 rounded-lg text-xs font-medium ${STATUS_COLORS[o.status] ?? "bg-gray-100 text-gray-600"}`}>
-                        {STATUS_LABELS[o.status] ?? o.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-          </tbody>
-        </table>
-      </div>
+      {loading ? (
+        <div className="flex flex-col gap-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-20 bg-white rounded-2xl border border-gray-100 animate-pulse" />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-2">
+          {orders.map((o) => (
+            <Link
+              key={o.id}
+              href={`/admin/orders/${o.id}`}
+              className="bg-white rounded-2xl border border-gray-100 px-4 py-3 flex items-center gap-3 hover:border-primary/30 transition-colors"
+            >
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-mono font-bold text-primary">#{o.id}</span>
+                  <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${STATUS_COLORS[o.status] ?? "bg-gray-100 text-gray-600"}`}>
+                    {STATUS_LABELS[o.status] ?? o.status}
+                  </span>
+                </div>
+                <p className="text-sm font-medium text-[#2C2417] truncate">{o.contact_name}</p>
+                <p className="text-xs text-gray-400 truncate">{o.delivery_city}, {o.delivery_branch}</p>
+              </div>
+              <div className="text-right shrink-0">
+                <p className="text-sm font-bold text-[#2C2417]">{formatPrice(Number(o.total_price))}</p>
+                <ChevronRight size={16} className="text-gray-300 ml-auto mt-1" />
+              </div>
+            </Link>
+          ))}
+          {orders.length === 0 && (
+            <div className="bg-white rounded-2xl border border-gray-100 px-4 py-10 text-center text-sm text-gray-400">
+              Buyurtmalar yo&apos;q
+            </div>
+          )}
+        </div>
+      )}
 
       {totalPages > 1 && (
-        <div className="flex gap-2 justify-center">
+        <div className="flex gap-2 justify-center pt-2">
           {Array.from({ length: totalPages }).map((_, i) => (
             <button key={i} type="button" onClick={() => setPage(i + 1)}
-              className={`w-8 h-8 rounded-lg text-sm font-medium ${page === i + 1 ? "bg-primary text-white" : "bg-white border border-gray-200 text-gray-600"}`}>
+              className={`w-9 h-9 rounded-xl text-sm font-medium ${page === i + 1 ? "bg-primary text-white" : "bg-white border border-gray-200 text-gray-600"}`}>
               {i + 1}
             </button>
           ))}

@@ -38,8 +38,7 @@ export default function AdminCouponsPage() {
   const inputCls = "px-3 py-2 rounded-xl border border-gray-200 text-sm outline-none focus:border-primary transition-colors";
 
   return (
-    <div className="flex flex-col gap-6 max-w-2xl">
-      <h1 className="font-montserrat font-bold text-xl text-[#2C2417]">Kuponlar</h1>
+    <div className="flex flex-col gap-4 max-w-2xl">
 
       <form onSubmit={handleCreate} className="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-4">
         <p className="text-sm font-semibold text-[#2C2417]">Yangi kupon</p>

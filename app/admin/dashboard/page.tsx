@@ -22,9 +22,7 @@ export default function AdminDashboardPage() {
     : [];
 
   return (
-    <div className="flex flex-col gap-6">
-      <h1 className="font-montserrat font-bold text-xl text-[#2C2417]">Dashboard</h1>
-
+    <div className="flex flex-col gap-4">
       {!stats ? (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (

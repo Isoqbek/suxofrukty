@@ -35,8 +35,7 @@ export default function AdminCategoriesPage() {
   }
 
   return (
-    <div className="flex flex-col gap-5 max-w-lg">
-      <h1 className="font-montserrat font-bold text-xl text-[#2C2417]">Kategoriyalar</h1>
+    <div className="flex flex-col gap-4 max-w-lg">
 
       <div className="flex gap-2">
         <input
