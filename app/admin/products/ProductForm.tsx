@@ -143,7 +143,7 @@ export default function ProductForm({ product }: Props) {
             <input type="number" min="1" value={v.weight_grams} onChange={(e) => updateVariant(i, "weight_grams", Number(e.target.value))} placeholder="gramm" className={`${inputCls} w-28`} />
             <input type="number" min="0" step="0.01" value={v.price} onChange={(e) => updateVariant(i, "price", Number(e.target.value))} placeholder="narx" className={`${inputCls} w-28`} />
             <input type="number" min="0" value={v.stock} onChange={(e) => updateVariant(i, "stock", Number(e.target.value))} placeholder="stock" className={`${inputCls} w-20`} />
-            <button type="button" onClick={() => removeVariant(i)} className="text-gray-400 hover:text-red-500 transition-colors shrink-0">
+            <button type="button" onClick={() => removeVariant(i)} aria-label="Variantni o'chirish" className="text-gray-400 hover:text-red-500 transition-colors shrink-0">
               <Trash2 size={15} />
             </button>
           </div>
@@ -166,7 +166,7 @@ export default function ProductForm({ product }: Props) {
               title="Asosiy rasm"
             />
             <span className="flex-1 truncate text-gray-600">{img.url}</span>
-            <button type="button" onClick={() => removeImage(i)} className="text-gray-400 hover:text-red-500 shrink-0">
+            <button type="button" onClick={() => removeImage(i)} aria-label="Rasmni o'chirish" className="text-gray-400 hover:text-red-500 shrink-0">
               <Trash2 size={14} />
             </button>
           </div>
