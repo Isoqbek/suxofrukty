@@ -122,9 +122,10 @@ export const adminApi = {
       method: "POST",
       headers: { Authorization: `Bearer ${getToken()}` },
       body: form,
-    }).then((r) => {
-      if (!r.ok) throw new Error(`upload ${r.status}`);
-      return r.json() as Promise<{ url: string }>;
+    }).then(async (r) => {
+      const json = await r.json();
+      if (!r.ok) throw new Error(json?.error ?? `upload ${r.status}`);
+      return json as { url: string };
     });
   },
 };

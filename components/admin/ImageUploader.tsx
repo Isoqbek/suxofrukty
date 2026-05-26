@@ -31,8 +31,8 @@ export default function ImageUploader({ images, onChange }: Props) {
           is_main: images.length === 0 && i === 0,
         })),
       ]);
-    } catch {
-      setError("Rasm yuklab bo'lmadi. ImageKit sozlamalarini tekshiring.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Rasm yuklab bo'lmadi.");
     } finally {
       setUploading(false);
     }
