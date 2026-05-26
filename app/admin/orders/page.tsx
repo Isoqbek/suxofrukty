@@ -45,7 +45,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4">
+      <div className="flex gap-2 overflow-x-auto pb-1">
         {STATUSES.map((s) => (
           <button
             key={s}

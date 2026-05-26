@@ -1,11 +1,16 @@
 import { Suspense } from "react";
 import ProductCard from "@/components/catalog/ProductCard";
 import ProductCardSkeleton from "@/components/catalog/ProductCardSkeleton";
+import { api } from "@/lib/api";
 import type { Product } from "@/types";
 
 async function getProducts(): Promise<Product[]> {
-  // TODO: replace with real API call
-  return [];
+  try {
+    const data = await api.products.list({ page_size: 100 });
+    return data.results;
+  } catch {
+    return [];
+  }
 }
 
 function ProductGrid({ products }: { products: Product[] }) {

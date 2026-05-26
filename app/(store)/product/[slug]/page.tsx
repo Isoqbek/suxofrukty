@@ -2,11 +2,15 @@ import { notFound } from "next/navigation";
 import ProductGallery from "@/components/catalog/ProductGallery";
 import AddToCartSection from "@/components/catalog/AddToCartSection";
 import { formatPrice, discountPercent } from "@/lib/utils";
+import { api } from "@/lib/api";
 import type { Product } from "@/types";
 
 async function getProduct(slug: string): Promise<Product | null> {
-  // TODO: replace with real API call
-  return null;
+  try {
+    return await api.products.get(slug);
+  } catch {
+    return null;
+  }
 }
 
 interface Props {

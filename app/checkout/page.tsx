@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
+import { api } from "@/lib/api";
 import { formatPrice } from "@/lib/utils";
 
 type Step = 1 | 2 | 3;
@@ -71,8 +72,15 @@ export default function CheckoutPage() {
   async function handleSubmit() {
     setLoading(true);
     try {
-      // TODO: POST /api/v1/orders/ with contact, delivery, items
-      await new Promise((r) => setTimeout(r, 800));
+      await api.orders.create({
+        contact: { name: contact.name, phone: contact.phone, email: contact.email },
+        delivery: { city: delivery.city, branch: delivery.branch },
+        items: items.map((i) => ({
+          product_id: i.product.id,
+          variant_id: i.variant?.id ?? null,
+          quantity: i.quantity,
+        })),
+      });
       dispatch({ type: "CLEAR" });
       router.push("/order-success");
     } finally {

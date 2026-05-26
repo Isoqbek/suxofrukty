@@ -47,20 +47,22 @@ export interface CartItem {
 export interface Order {
   id: number;
   status: OrderStatus;
-  total: number;
-  delivery_type: "nova_poshta" | "ukrposhta" | "courier";
-  payment_type: "liqpay" | "monobank" | "cod" | "bank_transfer";
-  ttn: string | null;
-  created_at: string;
+  contact_name: string;
+  contact_phone: string;
+  contact_email: string;
+  delivery_city: string;
+  delivery_branch: string;
+  total_price: string;
+  discount: string;
   items: OrderItem[];
 }
 
 export interface OrderItem {
   id: number;
-  product: Product;
-  variant: ProductVariant | null;
+  product_id: number;
+  variant_id: number | null;
   quantity: number;
-  price_at_order: number;
+  unit_price: string;
 }
 
 export type OrderStatus =
