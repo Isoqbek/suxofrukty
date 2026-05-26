@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-export default function StoreLayout({ children }: { children: React.ReactNode }) {
+export default function OrderSuccessLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />

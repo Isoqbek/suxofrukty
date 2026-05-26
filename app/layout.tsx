@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import { CartProvider } from "@/lib/cart-context";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -30,11 +28,7 @@ export default function RootLayout({
     <html lang="uk" className={`${inter.variable} ${montserrat.variable}`}>
       <body className="min-h-screen flex flex-col font-sans">
         <CartProvider>
-          <Header />
-          <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
-            {children}
-          </main>
-          <Footer />
+          {children}
         </CartProvider>
       </body>
     </html>
