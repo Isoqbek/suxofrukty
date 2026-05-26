@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
 import { adminApi, type AdminProduct, type AdminCategory } from "@/lib/admin-api";
+import ImageUploader from "@/components/admin/ImageUploader";
 
 interface Variant { id?: number; weight_grams: number; price: number; stock: number }
 interface Image { url: string; is_main: boolean }
@@ -46,19 +47,6 @@ export default function ProductForm({ product }: Props) {
     setVariants((prev) => prev.map((v, idx) => idx === i ? { ...v, [field]: value } : v));
   }
 
-  function addImage() {
-    const url = prompt("Rasm URL:");
-    if (!url) return;
-    setImages((prev) => [...prev, { url, is_main: prev.length === 0 }]);
-  }
-
-  function removeImage(i: number) {
-    setImages((prev) => prev.filter((_, idx) => idx !== i));
-  }
-
-  function setMainImage(i: number) {
-    setImages((prev) => prev.map((img, idx) => ({ ...img, is_main: idx === i })));
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -151,26 +139,8 @@ export default function ProductForm({ product }: Props) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-medium text-gray-500">Rasmlar</span>
-          <button type="button" onClick={addImage} className="flex items-center gap-1 text-xs text-primary font-medium">
-            <Plus size={14} /> URL qo&apos;shish
-          </button>
-        </div>
-        {images.map((img, i) => (
-          <div key={i} className="flex items-center gap-2 text-sm">
-            <input
-              type="radio"
-              checked={img.is_main}
-              onChange={() => setMainImage(i)}
-              title="Asosiy rasm"
-            />
-            <span className="flex-1 truncate text-gray-600">{img.url}</span>
-            <button type="button" onClick={() => removeImage(i)} aria-label="Rasmni o'chirish" className="text-gray-400 hover:text-red-500 shrink-0">
-              <Trash2 size={14} />
-            </button>
-          </div>
-        ))}
+        <span className="text-xs font-medium text-gray-500">Rasmlar</span>
+        <ImageUploader images={images} onChange={setImages} />
       </div>
 
       {error && <p className="text-sm text-red-500">{error}</p>}

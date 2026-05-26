@@ -114,4 +114,17 @@ export const adminApi = {
       request<AdminCoupon>("/coupons/", { method: "POST", body: JSON.stringify(body) }),
     toggle: (id: number) => request<{ active: boolean }>(`/coupons/${id}/toggle`, { method: "PATCH" }),
   },
+
+  upload: (file: File): Promise<{ url: string }> => {
+    const form = new FormData();
+    form.append("file", file);
+    return fetch(`${BASE_URL}/admin/upload`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${getToken()}` },
+      body: form,
+    }).then((r) => {
+      if (!r.ok) throw new Error(`upload ${r.status}`);
+      return r.json() as Promise<{ url: string }>;
+    });
+  },
 };
