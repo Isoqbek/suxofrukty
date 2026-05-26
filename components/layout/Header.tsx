@@ -2,13 +2,22 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ShoppingCart, Search, Menu, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 
 export default function Header() {
   const { totalCount } = useCart();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  function handleSearch(e: React.SyntheticEvent) {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    router.push(q ? `/catalog?search=${encodeURIComponent(q)}` : "/catalog");
+    setMenuOpen(false);
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
@@ -21,7 +30,7 @@ export default function Header() {
         </Link>
 
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSearch}
           className="hidden sm:flex flex-1 items-center border border-gray-300 rounded-lg overflow-hidden focus-within:border-primary"
         >
           <input
@@ -74,7 +83,7 @@ export default function Header() {
 
       {menuOpen && (
         <div className="sm:hidden border-t border-gray-100 bg-white px-4 py-4 flex flex-col gap-4">
-          <form onSubmit={(e) => e.preventDefault()} className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+          <form onSubmit={handleSearch} className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
             <input
               type="search"
               value={searchQuery}

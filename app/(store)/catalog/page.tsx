@@ -4,9 +4,11 @@ import ProductCardSkeleton from "@/components/catalog/ProductCardSkeleton";
 import { api } from "@/lib/api";
 import type { Product } from "@/types";
 
-async function getProducts(): Promise<Product[]> {
+export const dynamic = "force-dynamic";
+
+async function getProducts(search?: string, sale?: boolean): Promise<Product[]> {
   try {
-    const data = await api.products.list({ page_size: 100 });
+    const data = await api.products.list({ page_size: 100, search, sale });
     return data.results;
   } catch {
     return [];
@@ -42,8 +44,13 @@ function SkeletonGrid() {
   );
 }
 
-export default async function CatalogPage() {
-  const products = await getProducts();
+export default async function CatalogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string; sale?: string }>;
+}) {
+  const { search, sale } = await searchParams;
+  const products = await getProducts(search, sale === "true");
 
   return (
     <div className="flex flex-col gap-6">
