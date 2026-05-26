@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { adminApi, type AdminOrder } from "@/lib/admin-api";
@@ -27,18 +27,18 @@ export default function AdminOrdersPage() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await adminApi.orders.list(page, status);
+  useEffect(() => {
+    let cancelled = false;
+    adminApi.orders.list(page, status).then((data) => {
+      if (cancelled) return;
       setOrders(data.results);
       setTotal(data.count);
-    } finally {
       setLoading(false);
-    }
+    }).catch(() => {
+      if (!cancelled) setLoading(false);
+    });
+    return () => { cancelled = true; };
   }, [page, status]);
-
-  useEffect(() => { load(); }, [load]);
 
   const pageSize = 20;
   const totalPages = Math.ceil(total / pageSize);
