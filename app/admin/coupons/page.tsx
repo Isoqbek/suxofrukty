@@ -56,7 +56,7 @@ export default function AdminCouponsPage() {
           </label>
           <label className="flex flex-col gap-1 text-xs font-medium text-gray-500">
             Turi *
-            <select value={form.type} onChange={(e) => setForm((p) => ({ ...p, type: e.target.value })} className={inputCls}>
+            <select value={form.type} onChange={(e) => setForm((p) => ({ ...p, type: e.target.value }))} className={inputCls}>
               {Object.entries(TYPE_LABELS).map(([val, label]) => (
                 <option key={val} value={val}>{label}</option>
               ))}
